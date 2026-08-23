@@ -1,0 +1,23 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local research data; use Git LFS or an external release for publication.
+0522_data.xlsx
+0522_data_updated/
+
+# Generated experiment outputs.
+outputs/
+*.log
+evaluation/runs/
+evaluation/human/
+evaluation/private/
+
+# Contains copied user posts/user identifiers; keep local until de-identified.
+evaluation/data/
+evaluation/reports/

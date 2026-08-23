@@ -1,0 +1,13 @@
+from pathlib import Path
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PROMPTS_DIR = PROJECT_ROOT / "prompts"
+DEFAULT_VECTORSTORE_DIR = PROJECT_ROOT / "0522_data_updated"
+DEFAULT_DATASET_PATH = PROJECT_ROOT / "0522_data.xlsx"
+
+DEFAULT_LLM_MODEL = "gpt-4o"
+DEFAULT_EMBEDDING_MODEL = "text-embedding-3-small"
+DEFAULT_RECURSION_LIMIT = 20
+DEFAULT_RETRIEVAL_K = 5
+DEFAULT_MAX_EVALUATIONS = 2

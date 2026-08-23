@@ -1,0 +1,12 @@
+python-dotenv>=1.0,<2.0
+pandas>=2.2,<4.0
+openpyxl>=3.1,<4.0
+faiss-cpu>=1.9,<2.0
+langchain>=1.0,<2.0
+langchain-community>=0.4,<1.0
+langchain-core>=1.0,<2.0
+langchain-openai>=1.0,<2.0
+langchain-anthropic>=1.0,<2.0
+langgraph>=1.0,<2.0
+tavily-python>=0.7,<1.0
+tqdm>=4.66,<5.0
