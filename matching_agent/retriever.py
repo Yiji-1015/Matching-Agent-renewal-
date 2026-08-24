@@ -107,25 +107,44 @@ def build_vectorstore_from_excel(
     embedding_model: str = DEFAULT_EMBEDDING_MODEL,
     message_col: str = "Message",
     user_col: str = "User",
+    batch_size: int = 500,
 ) -> None:
-    """Rebuild the FAISS vectorstore from the source Excel dataset."""
+    """Rebuild the FAISS vectorstore from the source Excel dataset with batching."""
+    from tqdm import tqdm
+
     df = pd.read_excel(dataset_path)
+    # Filter out empty or NaN messages
+    df = df.dropna(subset=[message_col, user_col]).copy()
+    df[message_col] = df[message_col].astype(str)
+    df[user_col] = df[user_col].astype(str)
+
     embeddings = make_embeddings(embedding_model)
-    db = FAISS(
-        embedding_function=embeddings,
-        index=faiss.IndexFlatL2(1536),
-        docstore=InMemoryDocstore(),
-        index_to_docstore_id={},
-    )
+    texts = df[message_col].tolist()
+    metadatas = [{"User": user} for user in df[user_col].tolist()]
+    ids = [str(i) for i in df.index.tolist()]
 
-    for i, row in df.iterrows():
-        db.add_texts(
-            [row[message_col]],
-            metadatas=[{"User": row[user_col]}],
-            ids=[str(i)],
-        )
+    db = None
+    for i in tqdm(range(0, len(texts), batch_size), desc="Building FAISS Index"):
+        batch_texts = texts[i : i + batch_size]
+        batch_metadatas = metadatas[i : i + batch_size]
+        batch_ids = ids[i : i + batch_size]
+        if db is None:
+            db = FAISS.from_texts(
+                batch_texts,
+                embeddings,
+                metadatas=batch_metadatas,
+                ids=batch_ids,
+            )
+        else:
+            db.add_texts(
+                batch_texts,
+                metadatas=batch_metadatas,
+                ids=batch_ids,
+            )
 
+    output_dir.mkdir(parents=True, exist_ok=True)
     db.save_local(str(output_dir))
+
 
 
 def dedupe(items: Iterable[str]) -> list[str]:
