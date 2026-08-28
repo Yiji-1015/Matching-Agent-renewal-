@@ -21,3 +21,8 @@ evaluation/private/
 # Contains copied user posts/user identifiers; keep local until de-identified.
 evaluation/data/
 evaluation/reports/
+
+# Claude Code: 기기별 개인 설정만 제외 (프로젝트 지침/스킬은 커밋)
+.claude/settings.local.json
+.claude/shell-snapshots/
+.claude/todos/
