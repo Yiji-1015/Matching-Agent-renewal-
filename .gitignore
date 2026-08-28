@@ -26,3 +26,6 @@ evaluation/reports/
 .claude/settings.local.json
 .claude/shell-snapshots/
 .claude/todos/
+
+# 삭제 권한 없는 환경에서 임시로 치워둔 파일
+_to_delete/
